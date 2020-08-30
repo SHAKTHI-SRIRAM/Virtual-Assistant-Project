@@ -7,11 +7,13 @@ from gtts import gTTS
 from time import ctime
 import webbrowser
 r = sr.Recognizer()
-def record_audio(ask = False):
+
+
+def record_audio(ask=False):
     with sr.Microphone() as source:
         if ask:
             print(ask)
-        voice_data = r.record(source, duration = 5)
+        voice_data = r.record(source, duration=5)
         try:
             print("Recognizing...")
             voice_data = r.recognize_google(voice_data)
@@ -22,14 +24,18 @@ def record_audio(ask = False):
         except sr.RequestError:
             speak('MY SPEECH SERVICE IS DOWN')
         return voice_data
+
+
 def speak(text):
     tts = gTTS(text=text, lang='en', slow=False)
-    r = random.randint(1,100000000)
+    r = random.randint(1, 100000000)
     ado_file = 'ado-' + str(r) + '.mp3'
     tts.save(ado_file)
     playsound.playsound(ado_file)
     print(text)
     os.remove(ado_file)
+
+
 def respond(voice_data):
     if 'what is your name' in voice_data:
         print('My name is Cookie')
@@ -72,10 +78,12 @@ def respond(voice_data):
     if 'thanks' in voice_data:
         speak('YOU ARE WELCOME')
         exit()
+
+
 time.sleep(1)
 speak('POWER ON')
 speak('HI, HOW CAN I HELP YOU')
 while 1:
-    voice_data = record_audio()#text is the line which we speak
+    voice_data = record_audio()  # text is the line which we speak
     print(voice_data)
     respond(voice_data)
